@@ -1,0 +1,70 @@
+@font-face {
+    font-family: "Bold";
+    src: url(../assets/font/Bebas_Neue/BebasNeue-Regular.ttf);
+  }
+  
+  @font-face {
+    font-family: "font";
+    src: url(../assets/font/Roboto_Condensed/RobotoCondensed-Regular.ttf);
+  }
+  
+  * {
+    margin: 0;
+    padding: 0;
+    font-family: "font";
+    box-sizing: border-box;
+  }
+  
+  html,
+  body {
+    width: 100%;
+    height: 100%;
+  }
+
+
+  #nav{
+    width: 100%;
+    min-height:10vh;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 3vw;
+  }
+
+
+  .nav-logo{
+    width: 7vw;
+    height: 7vw;
+  }
+
+  .nav-logo img{
+    width: 100%;
+    height: 100%;
+  }
+  
+  .nav-items{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 3vw;
+  }
+  .nav-items a{
+    font-family: "Bold";
+    text-decoration: none;
+    color: #000;
+    letter-spacing: 1.5px;
+    font-size: 1.3vw;
+  }
+
+  .nav-icons{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2vw;
+  
+  }
+  .nav-icons a{
+    text-decoration: none;
+    font-size: 1.5vw;
+    color: #000;
+  }
