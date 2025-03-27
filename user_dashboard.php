@@ -34,47 +34,11 @@ $result = $stmt->get_result();
 $order_data = $result->fetch_assoc();
 $order_count = $order_data['order_count'];
 
-// Get recent orders
-$stmt = $conn->prepare("SELECT 
-    order_id, 
-    order_created, 
-    total_cost, 
-    order_status 
-    FROM orders 
-    WHERE user_ref = ? 
-    ORDER BY order_created DESC 
-    LIMIT 5");
-$stmt->bind_param("i", $user_id);
-$stmt->execute();
-$recent_orders = $stmt->get_result();
-
-// Get recommended products
-$stmt = $conn->prepare("SELECT 
-    product_id, 
-    product_name, 
-    product_price, 
-    product_image 
-    FROM products 
-    ORDER BY RAND() 
-    LIMIT 4");
-$stmt->execute();
-$recommended_products = $stmt->get_result();
-
 $conn->close();
 
 // Utility functions
 function formatDate($date) {
     return date("M d, Y", strtotime($date));
-}
-
-function getStatusBadge($status) {
-    $badges = [
-        'completed' => 'badge-success',
-        'processing' => 'badge-warning',
-        'shipped' => 'badge-info',
-        'cancelled' => 'badge-danger'
-    ];
-    return $badges[strtolower($status)] ?? 'badge-secondary';
 }
 ?>
 
@@ -83,13 +47,18 @@ function getStatusBadge($status) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Dashboard |Alpine Green Plant Nursery</title>
-    <link rel="stylesheet" href="css/user_dashboard.css">
+    <title>User Dashboard | Alpine Green Plant Nursery</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-    
+    <link rel="stylesheet" href="css/user_dashboard.css">
 </head>
 <body>
+    <!-- Sidebar Toggle for Mobile -->
+    <button class="sidebar-toggle d-md-none">
+        <i class="bi bi-list"></i>
+    </button>
+
     <!-- Sidebar -->
     <div class="sidebar">
         <div class="sidebar-content">
@@ -142,7 +111,7 @@ function getStatusBadge($status) {
     <div class="main-content">
         <div class="container-fluid py-4">
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-12 col-md-4">
                     <div class="dashboard-card text-center">
                         <div class="profile-avatar">
                             <?php echo strtoupper(substr($full_name, 0, 1)); ?>
@@ -160,68 +129,6 @@ function getStatusBadge($status) {
                         </div>
                     </div>
                 </div>
-
-                <div class="col-md-8">
-                    <div class="dashboard-card">
-                        <div class="d-flex justify-content-between align-items-center mb-3">
-                            <h4>Recent Orders</h4>
-                            <a href="orders.php" class="btn btn-sm btn-outline-primary">View All</a>
-                        </div>
-
-                        <?php if ($recent_orders->num_rows > 0): ?>
-                            <div class="table-responsive">
-                                <table class="table table-hover">
-                                    <thead>
-                                        <tr>
-                                            <th>Order ID</th>
-                                            <th>Date</th>
-                                            <th>Total</th>
-                                            <th>Status</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <?php while ($order = $recent_orders->fetch_assoc()): ?>
-                                            <tr>
-                                                <td>#<?php echo $order['order_id']; ?></td>
-                                                <td><?php echo formatDate($order['order_created']); ?></td>
-                                                <td>₹<?php echo number_format($order['total_cost'], 2); ?></td>
-                                                <td>
-                                                    <span class="badge <?php echo getStatusBadge($order['order_status']); ?>">
-                                                        <?php echo htmlspecialchars($order['order_status']); ?>
-                                                    </span>
-                                                </td>
-                                            </tr>
-                                        <?php endwhile; ?>
-                                    </tbody>
-                                </table>
-                            </div>
-                        <?php else: ?>
-                            <p class="text-center text-muted">No orders yet</p>
-                        <?php endif; ?>
-                    </div>
-
-                    <div class="dashboard-card">
-                        <div class="d-flex justify-content-between align-items-center mb-3">
-                            <h4>Recommended Products</h4>
-                            <a href="products.php" class="btn btn-sm btn-outline-primary">View All</a>
-                        </div>
-
-                        <div class="row g-3">
-                            <?php while ($product = $recommended_products->fetch_assoc()): ?>
-                                <div class="col-6 col-md-3 text-center">
-                                    <div class="bg-light p-3 rounded">
-                                        <img src="<?php echo htmlspecialchars($product['product_image']); ?>" 
-                                             alt="<?php echo htmlspecialchars($product['product_name']); ?>" 
-                                             class="img-fluid rounded mb-2" 
-                                             style="max-height: 150px; object-fit: cover;">
-                                        <h6 class="mb-1"><?php echo htmlspecialchars($product['product_name']); ?></h6>
-                                        <p class="text-muted">₹<?php echo number_format($product['product_price'], 2); ?></p>
-                                    </div>
-                                </div>
-                            <?php endwhile; ?>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
@@ -229,20 +136,14 @@ function getStatusBadge($status) {
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Optional: Add mobile sidebar toggle functionality
             const sidebar = document.querySelector('.sidebar');
-            const sidebarToggle = document.createElement('button');
-            sidebarToggle.innerHTML = '<i class="bi bi-list"></i>';
-            sidebarToggle.classList.add('btn', 'btn-outline-primary', 'position-fixed', 'top-0', 'start-0', 'm-3', 'd-md-none');
-            sidebarToggle.style.zIndex = '1050';
-            
+            const sidebarToggle = document.querySelector('.sidebar-toggle');
+
             sidebarToggle.addEventListener('click', function() {
                 sidebar.style.transform = sidebar.style.transform === 'translateX(0px)' 
                     ? 'translateX(-100%)' 
                     : 'translateX(0px)';
             });
-
-            document.body.prepend(sidebarToggle);
         });
     </script>
 </body>
