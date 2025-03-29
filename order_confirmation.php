@@ -594,11 +594,11 @@ require("pages/header.php");
                             <?php endif; ?>
                             <div class="row mb-2">
                                 <div class="col-5 info-label">Amount:</div>
-                                <div class="col-7">$<?php echo number_format($order['total_cost'], 2); ?></div>
+                                <div class="col-7">₹<?php echo number_format($order['total_cost'], 2); ?></div>
                             </div>
                             <?php if ($method == 'cod'): ?>
                             <div class="mt-3 alert alert-info">
-                                <i class="fas fa-info-circle"></i> You will pay $<?php echo number_format($order['total_cost'], 2); ?> upon delivery.
+                                <i class="fas fa-info-circle"></i> You will pay ₹<?php echo number_format($order['total_cost'], 2); ?> upon delivery.
                             </div>
                             <?php endif; ?>
                         </div>
@@ -674,9 +674,9 @@ require("pages/header.php");
                                 </div>
                                 
                                 <div class="text-right ml-3">
-                                    <h6 class="mb-0">$<?php echo number_format($item['item_price'], 2); ?></h6>
+                                    <h6 class="mb-0">₹<?php echo number_format($item['item_price'], 2); ?></h6>
                                     <p class="mb-0 text-muted">
-                                        $<?php echo number_format($item['item_price'] * $item['item_quantity'], 2); ?>
+                                    ₹<?php echo number_format($item['item_price'] * $item['item_quantity'], 2); ?>
                                     </p>
                                 </div>
                             </div>
@@ -688,7 +688,7 @@ require("pages/header.php");
                                 <div class="col-md-6 offset-md-6">
                                     <div class="d-flex justify-content-between mb-2">
                                         <span>Subtotal:</span>
-                                        <span>$<?php 
+                                        <span>₹<?php 
                                             $subtotal = 0;
                                             foreach ($orderItems as $item) {
                                                 $subtotal += $item['item_price'] * $item['item_quantity'];
@@ -699,24 +699,24 @@ require("pages/header.php");
                                     
                                     <div class="d-flex justify-content-between mb-2">
                                         <span>Shipping:</span>
-                                        <span>$0.00</span>
+                                        <span>₹0.00</span>
                                     </div>
                                     
                                     <div class="d-flex justify-content-between mb-2">
                                         <span>Tax (5%):</span>
-                                        <span>$<?php echo number_format($subtotal * 0.05, 2); ?></span>
+                                        <span>₹<?php echo number_format($subtotal * 0.05, 2); ?></span>
                                     </div>
                                     
                                     <?php if (isset($order['discount_amount']) && $order['discount_amount'] > 0): ?>
                                     <div class="d-flex justify-content-between mb-2 text-success">
                                         <span>Discount:</span>
-                                        <span>-$<?php echo number_format($order['discount_amount'], 2); ?></span>
+                                        <span>-₹<?php echo number_format($order['discount_amount'], 2); ?></span>
                                     </div>
                                     <?php endif; ?>
                                     
                                     <div class="d-flex justify-content-between mt-2 pt-2 border-top">
                                         <strong>Total:</strong>
-                                        <strong>$<?php echo number_format($order['total_cost'], 2); ?></strong>
+                                        <strong>₹<?php echo number_format($order['total_cost'], 2); ?></strong>
                                     </div>
                                 </div>
                             </div>

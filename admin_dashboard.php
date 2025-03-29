@@ -29,8 +29,8 @@ $full_name = htmlspecialchars($_SESSION['full_name']);
     <div class="sidebar">
         <div class="sidebar-header">
             <div class="brand">
-                <i class="fas fa-music"></i>
-                <span>Music Store</span>
+                <i class="fas fa-leaf"></i>
+                <span>Alpine Green</span>
             </div>
         </div>
         
@@ -50,8 +50,14 @@ $full_name = htmlspecialchars($_SESSION['full_name']);
             
             <li class="nav-item">
                 <a href="manage_products.php" class="nav-link">
-                    <i class="fas fa-guitar"></i>
+                    <i class="fas fa-seedling"></i>
                     <span>Products</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="manage_supplier.php" class="nav-link">
+                    <i class="fas fa-truck"></i>
+                    <span>Suppliers</span>
                 </a>
             </li>
             <li class="nav-item">
@@ -104,7 +110,7 @@ $full_name = htmlspecialchars($_SESSION['full_name']);
                     echo $userCount;
                     ?>
                 </div>
-                <i class="fas fa-users card-icon"></i>
+        
                 <div class="card-footer">
                     <i class="fas fa-user"></i>&nbsp; Registered users
                 </div>
@@ -123,9 +129,9 @@ $full_name = htmlspecialchars($_SESSION['full_name']);
                     echo $prodCount;
                     ?>
                 </div>
-                <i class="fas fa-guitar card-icon"></i>
+              
                 <div class="card-footer">
-                    <i class="fas fa-guitar"></i>&nbsp; Available products
+                <i class="fa-brands fa-envira"></i>&nbsp; Available products
                 </div>
             </div>
             
@@ -151,7 +157,7 @@ $full_name = htmlspecialchars($_SESSION['full_name']);
                     echo $orderCount;
                     ?>
                 </div>
-                <i class="fas fa-shopping-cart card-icon"></i>
+                
                 <div class="card-footer">
                     <i class="fas fa-clock"></i>&nbsp; Total orders
                 </div>

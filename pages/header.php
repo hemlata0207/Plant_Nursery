@@ -68,7 +68,6 @@ $cartCount = getCartItemCount();
         <div class="nav-items">
           <a href="index.php">Home</a>
           <a href="product.php">Product</a>
-          <a href="category.php">Categories</a>
           <a href="about.php">About Us</a>
           <a href="contact.php">Contact Us</a>
           <a href="sign-in.php">Sign In</a>
