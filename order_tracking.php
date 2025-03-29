@@ -152,6 +152,7 @@ function getCompletedSteps($status) {
             return 0;
     }
 }
+require("pages/header.php");
 ?>
 
 <!DOCTYPE html>

@@ -84,7 +84,7 @@ $conn->close();
             <div class="form-last-redirect">
                 <p>Don't have an account? <a href="sign-up.php">Register</a></p>
                 <div class="forgot-pass">
-                    <a href="forget_password.php">Forgot Password ?</a>
+                    <a href="forgot_password.php">Forgot Password ?</a>
                 </div>
             </div>
         </div>
