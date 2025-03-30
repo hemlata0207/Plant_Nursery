@@ -26,8 +26,6 @@ if ($conn->connect_error) {
 
 }
 
-
-
 // Fetch all orders with user details
 
 $sql = "SELECT orders.order_id, orders.total_cost, orders.order_created, orders.order_status, orders.order_type, users.full_name 
@@ -39,7 +37,6 @@ $sql = "SELECT orders.order_id, orders.total_cost, orders.order_created, orders.
         ORDER BY orders.order_created DESC";
 
 $result = $conn->query($sql);
-
 
 
 $full_name = $_SESSION['full_name']; // Added session variable
@@ -56,7 +53,7 @@ $full_name = $_SESSION['full_name']; // Added session variable
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Manage Orders - Alpine Green</title>
+    <title>Manage Orders - Alpine Green Plant Nursery</title>
 
     <!-- Add Font Awesome for icons -->
 
@@ -66,9 +63,181 @@ $full_name = $_SESSION['full_name']; // Added session variable
 
     <style>
 
-        /* Sidebar styling from file 1 */
+        .sidebar {
 
-    
+            width: 250px;
+
+            background-color: #2C3E50;
+
+            color: #fff;
+
+            height: 100vh;
+
+            position: fixed;
+
+            left: 0;
+
+            top: 0;
+
+            overflow-y: auto;
+
+        }
+
+        .sidebar-header {
+
+            padding: 20px 15px;
+
+            border-bottom: 1px solid #3c546c;
+
+        }
+
+        
+
+        .brand {
+
+            display: flex;
+
+            align-items: center;
+
+            font-size: 20px;
+
+            font-weight: bold;
+
+        }
+
+        
+
+        .brand i {
+
+            margin-right: 10px;
+
+            color: #4CAF50;
+
+        }
+
+        
+
+        .nav-menu {
+
+            list-style: none;
+
+            padding: 0;
+
+            margin: 0;
+
+        }
+
+        
+
+        .nav-item {
+
+            margin: 5px 0;
+
+        }
+
+        
+
+        .nav-link {
+
+            display: flex;
+
+            align-items: center;
+
+            padding: 12px 15px;
+
+            color: #ecf0f1;
+
+            text-decoration: none;
+
+            transition: all 0.3s;
+
+        }
+
+        
+
+        .nav-link:hover, .nav-link.active {
+
+            background-color: #34495e;
+
+            border-left: 4px solid #4CAF50;
+
+        }
+
+        
+
+        .nav-link i {
+
+            margin-right: 10px;
+
+            width: 20px;
+
+            text-align: center;
+
+        }
+
+        
+
+        .logout-btn {
+
+            padding: 15px;
+
+            position: absolute;
+
+            bottom: 0;
+
+            width: 100%;
+
+            border-top: 1px solid #3c546c;
+
+        }
+
+        
+
+        .logout-btn a {
+
+            display: flex;
+
+            align-items: center;
+
+            color: #ecf0f1;
+
+            text-decoration: none;
+
+        }
+
+        
+
+        .logout-btn a i {
+
+            margin-right: 10px;
+
+        }
+
+        
+
+        /* Adjust main content to accommodate sidebar */
+
+        .main-content {
+
+            margin-left: 250px;
+
+            padding: 20px;
+
+        }
+
+        
+
+        header {
+
+            margin-left: 250px;
+
+            padding: 15px;
+
+            background-color: #f5f5f5;
+
+            border-bottom: 1px solid #ddd;
+
+        }
 
     </style>
 
@@ -86,7 +255,7 @@ $full_name = $_SESSION['full_name']; // Added session variable
 
             <i class="fas fa-leaf"></i>
 
-            <span>Alpine Green</span>
+            <span>Alpine Green Plant Nursery</span>
 
         </div>
 
@@ -213,12 +382,7 @@ $full_name = $_SESSION['full_name']; // Added session variable
                 <th>Total Cost</th>
 
                 <th>Order Created</th>
-
-                <th>Status</th>
-
                 <th>Type</th>
-
-                <th>Actions</th>
 
             </tr>
 
@@ -238,23 +402,13 @@ $full_name = $_SESSION['full_name']; // Added session variable
 
                     echo "<td>" . $row["full_name"] . "</td>";
 
-                    echo "<td>$" . number_format($row["total_cost"], 2) . "</td>";
+                    echo "<td>₹" . number_format($row["total_cost"], 2) . "</td>";
 
                     echo "<td>" . $row["order_created"] . "</td>";
 
-                    echo "<td>" . $row["order_status"] . "</td>";
-
                     echo "<td>" . $row["order_type"] . "</td>";
 
-                    echo "<td>
-
-                            <a href='view_order.php?id=" . $row["order_id"] . "'><button type='button' class='action-btn'>View</button></a>
-
-                            <a href='update_order.php?id=" . $row["order_id"] . "'><button type='button' class='action-btn'>Update</button></a>
-
-                          </td>";
-
-                    echo "</tr>";
+                     "</tr>";
 
                 }
 

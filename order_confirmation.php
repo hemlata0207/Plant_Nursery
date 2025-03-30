@@ -452,7 +452,7 @@ require("pages/header.php");
     <div class="container mt-4 mb-5">
         <!-- Print button -->
         <div class="print-section no-print">
-            <<a href="invoice.php?order_id=<?php echo $order_id; ?>" class="btn btn-outline-secondary">View Invoice</a>
+            <a href="invoice.php?order_id=<?php echo $order_id; ?>" class="btn btn-outline-secondary">View Invoice</a>
         </div>
         
         <!-- Order Confirmation Header -->
@@ -734,7 +734,7 @@ require("pages/header.php");
                 </a>
                 
                 <div>
-                    <a href="my_orders.php" class="btn btn-outline-secondary mr-2">
+                    <a href="order_tracking.php" class="btn btn-outline-secondary mr-2">
                         <i class="fas fa-list-alt"></i> View All Orders
                     </a>
                     <a href="contact.php" class="btn btn-outline-info">

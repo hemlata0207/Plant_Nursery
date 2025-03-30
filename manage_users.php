@@ -39,6 +39,152 @@ if (!empty($user_type)) {
     <!-- Add Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="css/reports.css">
+    <style>
+        /* Sidebar styling from file 1 */
+        .sidebar {
+            width: 250px;
+            background-color: #2c3e50;
+            color: #fff;
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            padding: 20px 15px;
+            border-bottom: 1px solid #3c546c;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .brand i {
+            margin-right: 10px;
+            color: #4CAF50;
+        }
+
+        .nav-menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .nav-item {
+            margin: 5px 0;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            color: #ecf0f1;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            background-color: #34495e;
+            border-left: 4px solid #4CAF50;
+        }
+
+        .nav-link i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+
+        .logout-btn {
+            padding: 15px;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            border-top: 1px solid #3c546c;
+        }
+
+        .logout-btn a {
+            display: flex;
+            align-items: center;
+            color: #ecf0f1;
+            text-decoration: none;
+        }
+
+        .logout-btn a i {
+            margin-right: 10px;
+        }
+
+        /* Adjust main content to accommodate sidebar */
+        .container {
+            margin-left: 250px;
+            padding: 20px;
+        }
+
+        header {
+            margin-left: 250px;
+            padding: 15px;
+            background-color: #f5f5f5;
+            border-bottom: 1px solid #ddd;
+        }
+
+        /* Additional styles for the user management page */
+        .user-img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        
+        table th, table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        table th {
+            background-color: #f8f8f8;
+            font-weight: 600;
+        }
+        
+        table tr:hover {
+            background-color: #f5f5f5;
+        }
+        
+        .report-container {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .report-header {
+            border-bottom: 1px solid #eee;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+        
+        #usersSummary {
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            padding: 15px;
+        }
+        
+        #usersSummary h3 {
+            margin-top: 0;
+        }
+    </style>
 </head>
 
 <body>
@@ -46,10 +192,10 @@ if (!empty($user_type)) {
         <div class="sidebar-header">
             <div class="brand">
                 <i class="fas fa-leaf"></i>
-                <span>Alpine Green</span>
+                <span>Alpine Green Plant Nursery</span>
             </div>
         </div>
-        
+
         <ul class="nav-menu">
             <li class="nav-item">
                 <a href="admin_dashboard.php" class="nav-link">
@@ -63,7 +209,6 @@ if (!empty($user_type)) {
                     <span>Manage Users</span>
                 </a>
             </li>
-            
             <li class="nav-item">
                 <a href="manage_products.php" class="nav-link">
                     <i class="fas fa-seedling"></i>
@@ -89,7 +234,7 @@ if (!empty($user_type)) {
                 </a>
             </li>
         </ul>
-        
+
         <div class="logout-btn">
             <a href="logout.php">
                 <i class="fas fa-sign-out-alt"></i>
@@ -121,7 +266,6 @@ if (!empty($user_type)) {
                         <th>Role</th>
                         <th>Image</th>
                         <th>Created On</th>
-                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -142,14 +286,10 @@ if (!empty($user_type)) {
                             }
                             echo "</td>";
                             echo "<td>" . $row['created_on'] . "</td>";
-                            echo "<td class='action-buttons'>";
-                            echo "<a href='edit_user.php?id=" . $row['user_id'] . "' class='edit-btn'><i class='fas fa-edit'></i></a>";
-                            echo "<a href='delete_user.php?id=" . $row['user_id'] . "' class='delete-btn' onclick='return confirm(\"Are you sure you want to delete this user?\")'><i class='fas fa-trash'></i></a>";
-                            echo "</td>";
                             echo "</tr>";
                         }
                     } else {
-                        echo "<tr><td colspan='8'>No users found</td></tr>";
+                        echo "<tr><td colspan='7'>No users found</td></tr>";
                     }
                     ?>
                 </tbody>
@@ -175,47 +315,10 @@ if (!empty($user_type)) {
                 <p>Total Users: <?php echo $total_users; ?></p>
                 <p>Admin Users: <?php echo $admin_count; ?></p>
                 <p>Customer Users: <?php echo $customer_count; ?></p>
-                <p>Employee Users: <?php echo $employee_count; ?></p>
             </div>
         </div>
     </div>
-
-    <style>
-        /* Additional styles for the user management page */
-        .user-img {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            object-fit: cover;
-        }
-        
-        .action-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-        }
-        
-        .edit-btn, .delete-btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 30px;
-            height: 30px;
-            border-radius: 4px;
-        }
-        
-        .edit-btn {
-            background-color: #4a90e2;
-            color: white;
-        }
-        
-        .delete-btn {
-            background-color: #e74c3c;
-            color: white;
-        }
-    </style>
 </body>
-
 </html>
 
 <?php $conn->close(); ?>

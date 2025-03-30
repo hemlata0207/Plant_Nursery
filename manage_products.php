@@ -50,7 +50,7 @@ $full_name = $_SESSION['full_name'];
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Manage Plants - Alpine Green</title>
+    <title>Manage Plants - Alpine Green Plant Nursery</title>
 
     <!-- Add Font Awesome for icons -->
 
@@ -327,7 +327,7 @@ $full_name = $_SESSION['full_name'];
 
                 <i class="fas fa-leaf"></i>
 
-                <span>Alpine Green</span>
+                <span>Alpine Green Plant Nursery</span>
 
             </div>
 
@@ -537,15 +537,13 @@ $full_name = $_SESSION['full_name'];
 
                             echo "<td>" . $row["category"] . "</td>";
 
-                            echo "<td>$" . number_format($row["product_price"], 2) . "</td>";
+                            echo "<td>₹" . number_format($row["product_price"], 2) . "</td>";
 
                             echo "<td>" . $row["stock_quantity"] . "</td>";
 
                             echo "<td>" . $row["created_on"] . "</td>";
 
                             echo "<td>
-
-                                <a href='edit_product.php?id=" . $row["product_id"] . "'><button type='button' class='action-btn'>Edit</button></a>
 
                                 <a href='delete_product.php?id=" . $row["product_id"] . "' onclick='return confirm(\"Are you sure you want to delete this plant?\")'><button type='button' class='action-btn delete-btn'>Delete</button></a>
 

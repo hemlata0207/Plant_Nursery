@@ -42,6 +42,99 @@ $current_report = isset($_GET['report']) ? $_GET['report'] : '';
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
     <link rel="stylesheet" href="css/reports.css">
+    <style>
+        /* Sidebar styling from file 1 */
+        .sidebar {
+            width: 250px;
+            background-color: #2c3e50;
+            color: #fff;
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            padding: 20px 15px;
+            border-bottom: 1px solid #3c546c;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .brand i {
+            margin-right: 10px;
+            color: #4CAF50;
+        }
+
+        .nav-menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .nav-item {
+            margin: 5px 0;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            color: #ecf0f1;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            background-color: #34495e;
+            border-left: 4px solid #4CAF50;
+        }
+
+        .nav-link i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+
+        .logout-btn {
+            padding: 15px;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            border-top: 1px solid #3c546c;
+        }
+
+        .logout-btn a {
+            display: flex;
+            align-items: center;
+            color: #ecf0f1;
+            text-decoration: none;
+        }
+
+        .logout-btn a i {
+            margin-right: 10px;
+        }
+
+        /* Adjust main content to accommodate sidebar */
+        .container {
+            margin-left: 250px;
+            padding: 20px;
+        }
+
+        header {
+            margin-left: 250px;
+            padding: 15px;
+            background-color: #f5f5f5;
+            border-bottom: 1px solid #ddd;
+        }
+    </style>
 </head>
 
 <body>
@@ -49,7 +142,7 @@ $current_report = isset($_GET['report']) ? $_GET['report'] : '';
         <div class="sidebar-header">
             <div class="brand">
                 <i class="fas fa-leaf"></i>
-                <span>Alpine Green</span>
+                <span>Alpine Green Plant Nursery</span>
             </div>
         </div>
         
@@ -118,10 +211,6 @@ $current_report = isset($_GET['report']) ? $_GET['report'] : '';
                 <div class="number"><?php echo $total_customers; ?></div>
             </div>
             <div class="summary-card">
-                <h3>Low Stock Items</h3>
-                <div class="number"><?php echo $low_stock; ?></div>
-            </div>
-            <div class="summary-card">
                 <h3>Total Suppliers</h3>
                 <div class="number"><?php echo $total_suppliers; ?></div>
             </div>
@@ -184,7 +273,6 @@ $current_report = isset($_GET['report']) ? $_GET['report'] : '';
                             <th>Type</th>
                             <th>Items</th>
                             <th>Total</th>
-                            <th>Status</th>
                             <th>Payment</th>
                         </tr>
                     </thead>
@@ -202,8 +290,7 @@ $current_report = isset($_GET['report']) ? $_GET['report'] : '';
                                 echo "<td>" . $row['customer_name'] . "</td>";
                                 echo "<td>" . $row['order_type'] . "</td>";
                                 echo "<td>" . $row['number_of_items'] . "</td>";
-                                echo "<td>$" . number_format($row['total_cost'], 2) . "</td>";
-                                echo "<td>" . $row['order_status'] . "</td>";
+                                echo "<td>₹" . number_format($row['total_cost'], 2) . "</td>";
                                 echo "<td>" . $row['payment_status'] . "</td>";
                                 echo "</tr>";
 
@@ -222,7 +309,7 @@ $current_report = isset($_GET['report']) ? $_GET['report'] : '';
 
                 <div style="margin-top: 20px;" id="salesSummary">
                     <h3>Summary</h3>
-                    <p>Total Sales: $<?php echo number_format($total_sales, 2); ?></p>
+                    <p>Total Sales: ₹<?php echo number_format($total_sales, 2); ?></p>
                     <p>Purchase Orders: <?php echo $buy_count; ?></p>
                     <p>Rental Orders: <?php echo $rent_count; ?></p>
                 </div>
@@ -283,7 +370,6 @@ $current_report = isset($_GET['report']) ? $_GET['report'] : '';
                             <th>Type</th>
                             <th>Items</th>
                             <th>Total</th>
-                            <th>Status</th>
                             <th>Payment Method</th>
                             <th>Payment Status</th>
                         </tr>
@@ -304,8 +390,7 @@ $current_report = isset($_GET['report']) ? $_GET['report'] : '';
                                 echo "<td>" . $row['order_created'] . "</td>";
                                 echo "<td>" . $row['order_type'] . "</td>";
                                 echo "<td>" . $row['number_of_items'] . "</td>";
-                                echo "<td>$" . number_format($row['total_cost'], 2) . "</td>";
-                                echo "<td>" . $row['order_status'] . "</td>";
+                                echo "<td>₹" . number_format($row['total_cost'], 2) . "</td>";
                                 echo "<td>" . $row['payment_method'] . "</td>";
                                 echo "<td>" . $row['payment_status'] . "</td>";
                                 echo "</tr>";
@@ -331,7 +416,7 @@ $current_report = isset($_GET['report']) ? $_GET['report'] : '';
                     <h3>Summary</h3>
                     <p>Total Customers: <?php echo $total_customers; ?></p>
                     <p>Total Orders: <?php echo $total_orders; ?></p>
-                    <p>Total Sales: $<?php echo number_format($total_sales, 2); ?></p>
+                    <p>Total Sales: ₹<?php echo number_format($total_sales, 2); ?></p>
                     <p>Average Order Value: $<?php echo $total_orders > 0 ? number_format($total_sales / $total_orders, 2) : '0.00'; ?></p>
                 </div>
 
@@ -398,7 +483,7 @@ $current_report = isset($_GET['report']) ? $_GET['report'] : '';
                             <th>Product</th>
                             <th>Quantity</th>
                             <th>Amount</th>
-                            <th>Date Added</th>
+                            <th>Date </th>
                         </tr>
                     </thead>
                     <tbody>
@@ -416,7 +501,7 @@ $current_report = isset($_GET['report']) ? $_GET['report'] : '';
                                 echo "<td>" . $row['contact'] . "</td>";
                                 echo "<td>" . $row['product'] . "</td>";
                                 echo "<td>" . $row['quantity'] . "</td>";
-                                echo "<td>$" . number_format($row['amount'], 2) . "</td>";
+                                echo "<td>₹" . number_format($row['amount'], 2) . "</td>";
                                 echo "<td>" . $row['created_on'] . "</td>";
                                 echo "</tr>";
 
@@ -439,8 +524,8 @@ $current_report = isset($_GET['report']) ? $_GET['report'] : '';
                     <h3>Summary</h3>
                     <p>Total Unique Suppliers: <?php echo $total_suppliers; ?></p>
                     <p>Total Products Supplied: <?php echo $total_products; ?></p>
-                    <p>Total Cost: $<?php echo number_format($total_cost, 2); ?></p>
-                    <p>Average Cost per Product: $<?php echo $total_products > 0 ? number_format($total_cost / $total_products, 2) : '0.00'; ?></p>
+                    <p>Total Cost: ₹<?php echo number_format($total_cost, 2); ?></p>
+                    <p>Average Cost per Product: ₹<?php echo $total_products > 0 ? number_format($total_cost / $total_products, 2) : '0.00'; ?></p>
                 </div>
 
             <?php else: ?>

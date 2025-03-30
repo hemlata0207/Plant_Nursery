@@ -253,7 +253,7 @@ require("pages/header.php");
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Plant Shop</title>
-    <link rel="stylesheet" href="css/Product.css">
+    <link rel="stylesheet" href="css/product.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
 
@@ -286,6 +286,7 @@ require("pages/header.php");
                         <form method="GET" action="">
                             <select name="category" class="form-control form-control-sm" onchange="this.form.submit()">
                                 <option value="">All Categories</option>
+                                
                                 <?php foreach ($categories as $category): ?>
                                     <option value="<?php echo htmlspecialchars($category); ?>" 
                                         <?php echo (isset($_GET['category']) && $_GET['category'] == $category) ? 'selected' : ''; ?>>
@@ -416,7 +417,7 @@ require("pages/header.php");
                                                 </div>
                                             </div>
                                         </form>
-                                        <a href="product.php" class="btn btn-outline-secondary">
+                                        <a href="Product.php" class="btn btn-outline-secondary">
                                             <i class="fas fa-arrow-left"></i> Back to Products
                                         </a>
                                     </div>

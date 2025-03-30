@@ -25,7 +25,7 @@ $full_name = $_SESSION['full_name'];
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manage Suppliers - Alpine Green</title>
+    <title>Manage Suppliers - Alpine Green Plant Nursery</title>
     <!-- Add Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="css/manage_product.css">
@@ -152,7 +152,7 @@ $full_name = $_SESSION['full_name'];
     <div class="sidebar-header">
         <div class="brand">
             <i class="fas fa-leaf"></i>
-            <span>Alpine Green</span>
+            <span>Alpine Green Plant Nursery</span>
         </div>
     </div>
     
@@ -251,7 +251,7 @@ $full_name = $_SESSION['full_name'];
                         echo "<td>" . $address . "</td>";
                         
                         echo "<td>" . $row["product"] . "</td>";
-                        echo "<td>$" . number_format($row["amount"], 2) . "</td>";
+                        echo "<td>₹" . number_format($row["amount"], 2) . "</td>";
                         echo "<td>" . $row["created_on"] . "</td>";
                         echo "<td>
                                 <a href='edit_supplier.php?id=" . $row["supplier_id"] . "'><button type='button' class='action-btn'>Edit</button></a>

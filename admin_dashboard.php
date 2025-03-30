@@ -21,7 +21,98 @@ $full_name = htmlspecialchars($_SESSION['full_name']);
     <title>Admin Dashboard</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="css/admin.css">
-    
+    <style>
+        /* Sidebar styling from file 1 */
+        .sidebar {
+            width: 250px;
+            background-color: #2c3e50;
+            color: #fff;
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            padding: 20px 15px;
+            border-bottom: 1px solid #3c546c;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .brand i {
+            margin-right: 10px;
+            color: #4CAF50;
+        }
+
+        .nav-menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .nav-item {
+            margin: 5px 0;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            color: #ecf0f1;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            background-color: #34495e;
+            border-left: 4px solid #4CAF50;
+        }
+
+        .nav-link i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+
+        .logout-btn {
+            padding: 15px;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            border-top: 1px solid #3c546c;
+        }
+
+        .logout-btn a {
+            display: flex;
+            align-items: center;
+            color: #ecf0f1;
+            text-decoration: none;
+        }
+
+        .logout-btn a i {
+            margin-right: 10px;
+        }
+
+        /* Adjust main content to accommodate sidebar */
+        .main-content {
+            margin-left: 250px;
+            padding: 20px;
+        }
+
+        .header {
+            padding: 15px;
+            background-color: #f5f5f5;
+            border-bottom: 1px solid #ddd;
+        }
+    </style>
 </head>
 <body>
 
@@ -30,7 +121,7 @@ $full_name = htmlspecialchars($_SESSION['full_name']);
         <div class="sidebar-header">
             <div class="brand">
                 <i class="fas fa-leaf"></i>
-                <span>Alpine Green</span>
+                <span>Alpine Green Plant Nursery</span>
             </div>
         </div>
         
@@ -172,10 +263,6 @@ $full_name = htmlspecialchars($_SESSION['full_name']);
                 <a href="admin_add_product.php" class="action-btn">
                     <i class="fas fa-plus"></i> Add Product
                 </a>
-                <a href="admin_add_categories.php" class="action-btn">
-                    <i class="fas fa-folder-plus"></i> Add Category
-                </a>
-                
             </div>
         </div>
         

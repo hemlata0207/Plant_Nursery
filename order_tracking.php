@@ -160,14 +160,14 @@ require("pages/header.php");
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Plant Store - Order Tracking</title>
+    <title>Plant Store - My orders</title>
     <link rel="stylesheet" href="css/order-tracking.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
 </head>
 <body>
     <div class="container my-5">
-        <h1 class="text-center mb-5">Order Tracking System</h1>
+        <h1 class="text-center mb-5">My Orders</h1>
         
         <div class="tracking-section">
             <h3 class="mb-4">Track Your Order</h3>
@@ -236,9 +236,9 @@ require("pages/header.php");
                                 <p><strong>Email:</strong> <?php echo $order_details['email_address']; ?></p>
                                 <p><strong>Phone:</strong> <?php echo $order_details['phone_number'] ?? 'N/A'; ?></p>
                                 <p><strong>Order Date:</strong> <?php echo date('F j, Y g:i A', strtotime($order_details['order_created'])); ?></p>
-                                <p><strong>Order Type:</strong> <?php echo ucfirst($order_details['order_type']); ?></p>
-                                <p><strong>Status:</strong> <span class="badge bg-<?php echo $orderStatus == 'completed' ? 'success' : 'warning'; ?>"><?php echo ucfirst($order_details['order_status']); ?></span></p>
-                                <p><strong>Total:</strong> $<?php echo number_format($order_details['total_cost'], 2); ?></p>
+                               
+                                
+                                <p><strong>Total:</strong> ₹<?php echo number_format($order_details['total_cost'], 2); ?></p>
                                 <?php if ($order_details['discount_amount'] > 0): ?>
                                     <p><strong>Discount Applied:</strong> $<?php echo number_format($order_details['discount_amount'], 2); ?></p>
                                 <?php endif; ?>
@@ -255,7 +255,7 @@ require("pages/header.php");
                                 <?php if (!empty($payment_info)): ?>
                                     <p><strong>Payment Method:</strong> <?php echo str_replace('_', ' ', ucfirst($payment_info['payment_method'])); ?></p>
                                     <p><strong>Payment Date:</strong> <?php echo date('F j, Y g:i A', strtotime($payment_info['payment_date'])); ?></p>
-                                    <p><strong>Amount:</strong> $<?php echo number_format($payment_info['transaction_amount'], 2); ?></p>
+                                    <p><strong>Amount:</strong> ₹<?php echo number_format($payment_info['transaction_amount'], 2); ?></p>
                                     <p><strong>Status:</strong> 
                                         <span class="badge bg-<?php 
                                             switch($payment_info['payment_status']) {
@@ -333,7 +333,7 @@ require("pages/header.php");
                                 <th>Date</th>
                                 <th>Type</th>
                                 <th>Amount</th>
-                                <th>Status</th>
+                            
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -344,12 +344,8 @@ require("pages/header.php");
                                     <td><?php echo $order['invoice_number'] ?? 'N/A'; ?></td>
                                     <td><?php echo date('M j, Y', strtotime($order['order_created'])); ?></td>
                                     <td><?php echo ucfirst($order['order_type']); ?></td>
-                                    <td>$<?php echo number_format($order['total_cost'], 2); ?></td>
-                                    <td>
-                                        <span class="badge bg-<?php echo $order['order_status'] == 'completed' ? 'success' : 'warning'; ?>">
-                                            <?php echo ucfirst($order['order_status']); ?>
-                                        </span>
-                                    </td>
+                                    <td>₹<?php echo number_format($order['total_cost'], 2); ?></td>
+                                    
                                     <td>
                                         <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
                                             <input type="hidden" name="tracking_id" value="<?php echo $order['order_id']; ?>">
@@ -379,7 +375,6 @@ require("pages/header.php");
                                 <th>Date</th>
                                 <th>Type</th>
                                 <th>Amount</th>
-                                <th>Status</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -391,12 +386,8 @@ require("pages/header.php");
                                     <td><?php echo $order['full_name']; ?></td>
                                     <td><?php echo date('M j, Y', strtotime($order['order_created'])); ?></td>
                                     <td><?php echo ucfirst($order['order_type']); ?></td>
-                                    <td>$<?php echo number_format($order['total_cost'], 2); ?></td>
-                                    <td>
-                                        <span class="badge bg-<?php echo $order['order_status'] == 'completed' ? 'success' : 'warning'; ?>">
-                                            <?php echo ucfirst($order['order_status']); ?>
-                                        </span>
-                                    </td>
+                                    <td>₹<?php echo number_format($order['total_cost'], 2); ?></td>
+                                 
                                     <td>
                                         <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
                                             <input type="hidden" name="tracking_id" value="<?php echo $order['order_id']; ?>">

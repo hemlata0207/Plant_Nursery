@@ -169,27 +169,168 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Plant</title>
+    <title>Add Plant - Alpine Green</title>
+    <!-- Add Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="css/add_product.css">
+    <style>
+        /* Sidebar styling from file 1 */
+        .sidebar {
+            width: 250px;
+            background-color: #2c3e50;
+            color: #fff;
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            padding: 20px 15px;
+            border-bottom: 1px solid #3c546c;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .brand i {
+            margin-right: 10px;
+            color: #4CAF50;
+        }
+
+        .nav-menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .nav-item {
+            margin: 5px 0;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            color: #ecf0f1;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            background-color: #34495e;
+            border-left: 4px solid #4CAF50;
+        }
+
+        .nav-link i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+
+        .logout-btn {
+            padding: 15px;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            border-top: 1px solid #3c546c;
+        }
+
+        .logout-btn a {
+            display: flex;
+            align-items: center;
+            color: #ecf0f1;
+            text-decoration: none;
+        }
+
+        .logout-btn a i {
+            margin-right: 10px;
+        }
+
+        /* Adjust main content to accommodate sidebar */
+        .content {
+            margin-left: 250px;
+            padding: 20px;
+        }
+
+        header {
+            margin-left: 250px;
+            padding: 15px;
+            background-color: #f5f5f5;
+            border-bottom: 1px solid #ddd;
+        }
+
+        /* Keep any custom styles from add_product.css that don't conflict */
+        /* You may need to adjust these as needed */
+    </style>
 </head>
 <body>
-<div class="container">
     <div class="sidebar">
-        <h2>Admin Panel</h2>
-        <ul>
-            <li><a href="admin_dashboard.php">Dashboard</a></li>
-            <li><a href="manage_users.php">Manage Users</a></li>
-            <li><a href="manage_products.php">Manage Plants</a></li>
-            <li><a href="manage_orders.php">View Orders</a></li>
-            <li><a href="reports.php">Reports</a></li>
+        <div class="sidebar-header">
+            <div class="brand">
+                <i class="fas fa-leaf"></i>
+                <span>Alpine Green Plant Nursery</span>
+            </div>
+        </div>
+
+        <ul class="nav-menu">
+            <li class="nav-item">
+                <a href="admin_dashboard.php" class="nav-link">
+                    <i class="fas fa-home"></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="manage_users.php" class="nav-link">
+                    <i class="fas fa-users"></i>
+                    <span>Manage Users</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="manage_products.php" class="nav-link active">
+                    <i class="fas fa-seedling"></i>
+                    <span>Products</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="manage_supplier.php" class="nav-link">
+                    <i class="fas fa-truck"></i>
+                    <span>Suppliers</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="manage_orders.php" class="nav-link">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span>Orders</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="reports.php" class="nav-link">
+                    <i class="fas fa-chart-bar"></i>
+                    <span>Reports</span>
+                </a>
+            </li>
         </ul>
+
         <div class="logout-btn">
-            <a href="logout.php">Logout</a>
+            <a href="logout.php">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Logout</span>
+            </a>
         </div>
     </div>
+
+    <header>
+        <h1>Add New Plant - Alpine Green Plant Nursery</h1>
+    </header>
     
     <div class="content">
-        <h2>Add New Plant</h2>
         <?php echo $message; ?>
         <form action="" method="POST" enctype="multipart/form-data">
             <div class="form-group">
@@ -235,6 +376,5 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <button type="submit">Add Plant</button>
         </form>
     </div>
-</div>
 </body>
 </html>
