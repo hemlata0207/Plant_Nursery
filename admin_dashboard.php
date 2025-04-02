@@ -145,6 +145,7 @@ $full_name = htmlspecialchars($_SESSION['full_name']);
                     <span>Products</span>
                 </a>
             </li>
+            
             <li class="nav-item">
                 <a href="manage_supplier.php" class="nav-link">
                     <i class="fas fa-truck"></i>

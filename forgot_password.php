@@ -3,24 +3,18 @@
 session_start();
  
 // Check if the user is already logged in, if yes then redirect
-if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true){
-    header("location: dashboard.php");
+if(isset($_SESSION["user_id"])){
+    header("location: user_dashboard.php");
     exit;
 }
  
 // Include config file
 require_once "config/database.php";
 
-// Establish database connection - use this approach if your config/database.php doesn't define $link
-// If your config file already creates a connection variable with a different name, adjust accordingly
-if(!isset($link)) {
-    // Direct connection if constants aren't defined in config file
-    $link = mysqli_connect("localhost", "root", "", "plant_db");
-    
-    // Check connection
-    if(!$link){
-        die("Connection failed: " . mysqli_connect_error());
-    }
+// Establish database connection
+$conn = new mysqli("localhost", "root", "", "plant_db");
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
 }
  
 // Define variables and initialize with empty values
@@ -48,24 +42,24 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["verify_email"])){
         // Check if email exists in the users table
         $sql = "SELECT user_id, full_name, email_address FROM users WHERE email_address = ?";
         
-        if($stmt = mysqli_prepare($link, $sql)){
+        if($stmt = $conn->prepare($sql)){
             // Bind variables to the prepared statement as parameters
-            mysqli_stmt_bind_param($stmt, "s", $param_email);
+            $stmt->bind_param("s", $param_email);
             
             // Set parameters
             $param_email = $email;
             
             // Attempt to execute the prepared statement
-            if(mysqli_stmt_execute($stmt)){
+            if($stmt->execute()){
                 // Store result
-                mysqli_stmt_store_result($stmt);
+                $stmt->store_result();
                 
                 // Check if email exists
-                if(mysqli_stmt_num_rows($stmt) == 1){                    
+                if($stmt->num_rows == 1){                    
                     // Bind result variables
-                    mysqli_stmt_bind_result($stmt, $id, $full_name, $email_address);
+                    $stmt->bind_result($id, $full_name, $email_address);
                     
-                    if(mysqli_stmt_fetch($stmt)){
+                    if($stmt->fetch()){
                         // Store user_id in a session variable
                         $_SESSION["reset_user_id"] = $id;
                         $email_verified = true;
@@ -79,7 +73,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["verify_email"])){
             }
 
             // Close statement
-            mysqli_stmt_close($stmt);
+            $stmt->close();
         }
     }
 }
@@ -116,16 +110,16 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["reset_password"])){
         // Prepare an update statement
         $sql = "UPDATE users SET user_password = ? WHERE user_id = ?";
         
-        if($stmt = mysqli_prepare($link, $sql)){
+        if($stmt = $conn->prepare($sql)){
             // Bind variables to the prepared statement as parameters
-            mysqli_stmt_bind_param($stmt, "si", $param_password, $param_id);
+            $stmt->bind_param("si", $param_password, $param_id);
             
             // Set parameters
             $param_password = password_hash($new_password, PASSWORD_DEFAULT);
             $param_id = $_SESSION["reset_user_id"];
             
             // Attempt to execute the prepared statement
-            if(mysqli_stmt_execute($stmt)){
+            if($stmt->execute()){
                 // Password updated successfully
                 $reset_success = "Your password has been reset successfully. You can now <a href='sign-in.php'>login</a> with your new password.";
                 
@@ -140,74 +134,105 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["reset_password"])){
             }
 
             // Close statement
-            mysqli_stmt_close($stmt);
+            $stmt->close();
         }
     }
 }
-?>
- 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Forgot Password</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <style>
-        body{ font: 14px sans-serif; }
-        .wrapper{ width: 360px; padding: 20px; margin: 0 auto; margin-top: 50px; }
-    </style>
-</head>
-<body>
-    <div class="wrapper">
-        <h2>Forgot Password</h2>
 
-        <?php 
-        if(!empty($reset_err)){
-            echo '<div class="alert alert-danger">' . $reset_err . '</div>';
-        }
-        if(!empty($reset_success)){
-            echo '<div class="alert alert-success">' . $reset_success . '</div>';
-        } else {
-            if(!$email_verified) {
-                // Display email verification form
-                ?>
-                <p>Please enter your email address to reset your password.</p>
-                <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-                    <div class="form-group">
-                        <label>Email</label>
-                        <input type="email" name="email" class="form-control <?php echo (!empty($email_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $email; ?>">
-                        <span class="invalid-feedback"><?php echo $email_err; ?></span>
-                    </div>
-                    <div class="form-group">
-                        <input type="submit" name="verify_email" class="btn btn-primary" value="Continue">
-                    </div>
-                    <p>Remember your password? <a href="sign-in.php">Login here</a></p>
-                </form>
-                <?php
+// Close connection
+$conn->close();
+?>
+
+<?php include 'pages/header.php'; ?>
+
+<body>
+    <div class="sign-box">
+        <div class="login-container">
+            <div class="form-title">
+                <h1>Forgot Password</h1>
+                <p><?php echo !$email_verified ? "Enter your email address to reset your password" : "Enter your new password"; ?></p>
+            </div>
+
+            <?php 
+            if(!empty($reset_err)){
+                echo '<p class="error">' . $reset_err . '</p>';
+            }
+            if(!empty($reset_success)){
+                echo '<p class="success">' . $reset_success . '</p>';
             } else {
-                // Display password reset form
-                ?>
-                <p>Please enter your new password.</p>
-                <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-                    <div class="form-group">
-                        <label>New Password</label>
-                        <input type="password" name="new_password" class="form-control <?php echo (!empty($new_password_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $new_password; ?>">
-                        <span class="invalid-feedback"><?php echo $new_password_err; ?></span>
+                if(!$email_verified) {
+                    // Display email verification form
+                    ?>
+                    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" class="login-form">
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" value="<?php echo $email; ?>" required>
+                            <?php if(!empty($email_err)) echo '<p class="error">' . $email_err . '</p>'; ?>
+                        </div>
+                        <div class="sign-in-btn">
+                            <button type="submit" name="verify_email">Continue</button>
+                        </div>
+                    </form>
+                    <div class="form-last-redirect">
+                        <p>Remember your password? <a href="sign-in.php">Sign In</a></p>
                     </div>
-                    <div class="form-group">
-                        <label>Confirm Password</label>
-                        <input type="password" name="confirm_password" class="form-control <?php echo (!empty($confirm_password_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $confirm_password; ?>">
-                        <span class="invalid-feedback"><?php echo $confirm_password_err; ?></span>
+                    <?php
+                } else {
+                    // Display password reset form
+                    ?>
+                    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" class="login-form">
+                        <div class="form-group">
+                            <label for="new_password">New Password</label>
+                            <input type="password" id="new_password" name="new_password" value="<?php echo $new_password; ?>" required>
+                            <span id="toggleNewIcon" class="toggle-icon" onclick="toggleNewPasswordVisibility()">👁</span>
+                            <?php if(!empty($new_password_err)) echo '<p class="error">' . $new_password_err . '</p>'; ?>
+                        </div>
+                        <div class="form-group">
+                            <label for="confirm_password">Confirm Password</label>
+                            <input type="password" id="confirm_password" name="confirm_password" value="<?php echo $confirm_password; ?>" required>
+                            <span id="toggleConfirmIcon" class="toggle-icon" onclick="toggleConfirmPasswordVisibility()">👁</span>
+                            <?php if(!empty($confirm_password_err)) echo '<p class="error">' . $confirm_password_err . '</p>'; ?>
+                        </div>
+                        <div class="sign-in-btn">
+                            <button type="submit" name="reset_password">Reset Password</button>
+                        </div>
+                    </form>
+                    <div class="form-last-redirect">
+                        <p><a href="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">Back to email verification</a></p>
                     </div>
-                    <div class="form-group">
-                        <input type="submit" name="reset_password" class="btn btn-primary" value="Reset Password">
-                    </div>
-                    <p><a href="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">Back to email verification</a></p>
-                </form>
-                <?php
+                    <?php
+                }
+            }
+            ?>
+        </div>
+    </div>
+
+    <script>
+        function toggleNewPasswordVisibility() {
+            const passwordInput = document.getElementById('new_password');
+            const toggleIcon = document.getElementById('toggleNewIcon');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleIcon.textContent = '👁'; // Eye
+            } else {
+                passwordInput.type = 'password';
+                toggleIcon.textContent = '🙈'; // Hidden Eye
             }
         }
-        ?>
-    </div>
-</body>
-</html>
+
+        function toggleConfirmPasswordVisibility() {
+            const passwordInput = document.getElementById('confirm_password');
+            const toggleIcon = document.getElementById('toggleConfirmIcon');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleIcon.textContent = '👁'; // Eye
+            } else {
+                passwordInput.type = 'password';
+                toggleIcon.textContent = '🙈'; // Hidden Eye
+            }
+        }
+    </script>
+
+<?php include 'pages/footer.php'; ?>

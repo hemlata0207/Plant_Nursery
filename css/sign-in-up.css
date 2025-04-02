@@ -33,7 +33,7 @@
   }
   
   .sign-box {
-    margin-top: 8vw;
+    margin: 5vw 0;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -160,6 +160,7 @@
     margin: 0 auto;
     border-radius: 10px;
     margin-top: 1.5vw;
+    margin-bottom: 1.5vw;
   }
   
   .sign-up-form h1 {
