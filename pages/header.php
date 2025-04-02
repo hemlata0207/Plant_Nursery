@@ -24,6 +24,9 @@ if (!function_exists('getCartItemCount')) {
 
 // Get cart count
 $cartCount = getCartItemCount();
+
+// Check if user is logged in
+$isLoggedIn = isset($_SESSION['user_id']) && !empty($_SESSION['user_id']);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -33,7 +36,6 @@ $cartCount = getCartItemCount();
     <title>Plant Shop</title>
     <link rel="stylesheet" href="css/style.css" />
     <link rel="stylesheet" href="css/sign-in-up.css">
-    
     <link
       href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css"
       rel="stylesheet"
@@ -71,7 +73,9 @@ $cartCount = getCartItemCount();
           <a href="product.php">Product</a>
           <a href="about.php">About Us</a>
           <a href="contact.php">Contact Us</a>
-          <a href="sign-in.php">Sign In</a>
+          <?php if (!$isLoggedIn): ?>
+            <a href="sign-in.php">Sign In</a>
+          <?php endif; ?>
         </div>
         <div class="nav-icons">
           <a href="Cart.php" class="cart-icon-container">
